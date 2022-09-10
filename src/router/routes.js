@@ -3,9 +3,19 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    meta: {
+      requiresAuth: true
+    },
     children: [
-      { path: '', name: 'productosComponent', component: () => import('components/productos/productosComponent.vue') },
-      { path: 'compra', name: 'listaCompra', component: () => import('components/compra/listaCompra.vue') }
+      {path: '',
+          redirect: to => {
+            return { path: '/productos' }
+          },
+          component: () =>
+              import ('components/productos/productosComponent.vue')
+      },
+      { path: 'productos', name: 'productosComponent', component: () => import('components/productos/productosComponent.vue') },
+      { path: 'compra', name: 'compraComponent', component: () => import('components/compra/compraComponent.vue') },
     ]
   },
   {

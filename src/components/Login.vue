@@ -52,7 +52,9 @@
         </div>
 </template>
 <script>
-    import { defineComponent } from 'vue'
+    import { defineComponent } from 'vue';
+    import axios from 'axios';
+    // import { instance } from "boot/axios";
     export default defineComponent({
         name: 'Login',
         data() {
@@ -65,8 +67,27 @@
             },
             methods: {
                 login() {
-                this.loading = true;
-               
+                    this.loading = true;
+                    const data = {
+                        email: this.usuario,
+                        password: this.password
+                    }
+                    axios.post('http://127.0.0.1:8000/api/login',
+                    {headers: {
+                        'Content-Type': 'application/json',
+                       ' X-Requested-With':'XMLHttpRequest'
+                    }, email: this.usuario, password: this.password}).then((res)=>{
+                        console.log('login', res);
+                        localStorage.setItem('access_token', JSON.stringify(res.data.success.token))
+                        localStorage.setItem('name', JSON.stringify(res.data.success.name))
+                        this.$router.push("productos");
+                    }).catch( (e) => {
+                        this.loading = false;
+                        this.error = e.response.data.message;
+                    })
+                    .then( () => {
+                        this.loading = false;
+                    });
                 }
             }
     })
