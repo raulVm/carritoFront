@@ -66,25 +66,7 @@
             methods: {
                 login() {
                 this.loading = true;
-                // this.$store.dispatch("auth/login",{
-                //     usuario: this.usuario,
-                //     password: this.password
-                // })
-                // .then( (res) => {
-                //     this.$store.commit("auth/setToken", res.data.access_token);
-                //     this.$store.commit("auth/setLogginIn", true);
-                //     localStorage.setItem('access_token', JSON.stringify(res.data.access_token))
-                //     localStorage.setItem('expires_at', JSON.stringify(res.data.expires_at))
-                //     localStorage.setItem('name', JSON.stringify(res.data.name))
-                //     this.$router.push("mandamientos");
-                // })
-                // .catch( (e) => {
-                //     this.loading = false;
-                //     this.error = e.response.data.message;
-                // })
-                // .then( () => {
-                //     this.loading = false;
-                // })
+               
                 }
             }
     })
