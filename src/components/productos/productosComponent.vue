@@ -11,7 +11,7 @@
                         src="img/canastaCompra.webp"
                     />
                     <div class="col-8 text-right">
-                        <div class="text-subtitle2">{{ dataPro.nombrePro }}</div>
+                        <div class="text-subtitle2">{{ dataPro.nombre }}</div>
                         <div class="text-overline">Folio: {{ dataPro.folio }}</div>
                     </div>
                 </q-card-section>
@@ -22,7 +22,7 @@
                 </q-card-section>
                 <q-card-section>
                     <div class="col-6 text-left">
-                        <div class="text-subtitle2">PRECIO: {{ dataPro.precio }}</div>
+                        <div class="text-subtitle2">PRECIO: ${{ dataPro.precio }}</div>
                     </div>
                     <div class="col-6 text-right">
                         <q-btn color="white"  outline rounded text-color="black" label="Añadir" />
@@ -34,40 +34,12 @@
 </template>
 <script>
     import{ defineComponent } from 'vue';
+    import axios from 'axios';
     export default defineComponent({
         name: 'productosComponent',
         data () {
             return {
-            dataProductos: [
-                {   
-                    id: 1,
-                    nombrePro:'Pan Bimbo',
-                    folio: 'x23',
-                    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    precio:'$34'
-                },
-                {
-                    id: 2,
-                    nombrePro:'Sabritas',
-                    folio: 'x23fser',
-                    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    precio:'$20'
-                },
-                {
-                    id: 3,
-                    nombrePro:'Suavicremas',
-                    folio: 'x2awqq3',
-                    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    precio:'$43'
-                },
-                {
-                    id: 4,
-                    nombrePro:'Maruchaan',
-                    folio: 'sdasdx23',
-                    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                    precio:'$13'
-                },
-            ],
+            dataProductos: [],
             }
         },
         mounted (){
@@ -75,7 +47,9 @@
         },
         methods: {
             datosProducto (){
-                this.dataProductos;
+                axios.get('http://127.0.0.1:8000/api/producto').then(res=>{
+                    this.dataProductos = res.data;
+                });
             }
         }
     })
