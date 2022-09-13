@@ -103,7 +103,7 @@
                 ' X-Requested-With':'XMLHttpRequest'
               }, idProducto: JSON.stringify(idProducto).slice(1, -1), total: totalPrecio,
               cantidad: totalCantidad, idUsuario: parseInt(localStorage.id)}).then(res=>{
-                consle.log(res.data);
+                console.log(res.data);
             });
           },
         }
