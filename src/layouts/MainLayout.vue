@@ -7,7 +7,7 @@
             <img src="img/logo1.png">
           </q-avatar>
         </q-toolbar-title>
-        <q-btn flat round dense icon="shopping_cart" size="1.4em" color="black"></q-btn>
+        <q-btn flat round dense icon="shopping_cart" @click="compras()" size="1.4em" color="black"></q-btn>
         <q-btn flat round dense icon="account_circle" size="2em" color="teal"  @click="sesion = true">  {{ this.nombre }}</q-btn>
       </q-toolbar>
     </q-header>
@@ -47,7 +47,10 @@ export default defineComponent({
     datosLongin(){
       this.nombre = localStorage.getItem('name').replace(/['"]+/g, '')
     },
-  logout() {
+    compras(){
+      this.$router.push('/compra')
+    },
+    logout() {
       this.loading = true;
       axios.get('http://127.0.0.1:8000/api/logout')
         .then((res) => {

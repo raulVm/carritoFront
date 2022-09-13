@@ -77,7 +77,6 @@
                         'Content-Type': 'application/json',
                        ' X-Requested-With':'XMLHttpRequest'
                     }, email: this.usuario, password: this.password}).then((res)=>{
-                        console.log('login', res);
                         localStorage.setItem('access_token', JSON.stringify(res.data.success.token))
                         localStorage.setItem('name', JSON.stringify(res.data.success.name))
                         this.$router.push("productos");

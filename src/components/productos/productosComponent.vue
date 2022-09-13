@@ -1,9 +1,6 @@
 <template>
     <q-card-section>
         <div class="row ">
-            <div class="col-12 text-right">
-                <compra :compraP="this.carrito" />
-            </div>
             <q-card class="my-card col-4" flat bordered v-for="(dataPro) in dataProductos"
                   :key="dataPro.id"
                   once
@@ -28,7 +25,7 @@
                         <div class="text-subtitle2">PRECIO: ${{ dataPro.precio }}</div>
                     </div>
                     <div class="col-6 text-right">
-                        <q-btn color="white"  outline rounded text-color="black" @click="cargarCarrito(dataPro)" label="Seleccionar" />
+                        <q-btn color="white"  outline rounded text-color="black" @click="cargarCarrito(JSON.parse(JSON.stringify(dataPro)))" label="Seleccionar" />
                     </div>
                 </q-card-section>
             </q-card>
@@ -37,18 +34,16 @@
 </template>
 <script>
     import{ defineComponent } from 'vue';
-    import compra from '../compra/compraComponent.vue'
     import axios from 'axios';
+    import { useQuasar } from 'quasar';
+    import store from '../../store/tienda';
     export default defineComponent({
         name: 'productosComponent',
         data () {
             return {
                 dataProductos: [],
-                carrito: []
+                carrito: [],
             }
-        },
-        components:{
-            compra
         },
         mounted (){
             this.datosProducto();
@@ -57,10 +52,22 @@
             datosProducto (){
                 axios.get('http://127.0.0.1:8000/api/producto').then(res=>{
                     this.dataProductos = res.data;
+                    this.setup();
                 });
             },
-            cargarCarrito (evento){
-                return this.carrito.push(evento)
+            cargarCarrito (producto){
+                const conteo = store.dispatch('agregarCarrito',producto);
+            },
+            setup () {
+                const $q = useQuasar()
+                return {
+                showNotif () {
+                    $q.notify({
+                    message: 'Se agrego correctamente el producto',
+                    icon: 'announcement'
+                    })
+                }
+                }
             },
         }
     })
