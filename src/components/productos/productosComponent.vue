@@ -25,7 +25,7 @@
                         <div class="text-subtitle2">PRECIO: ${{ dataPro.precio }}</div>
                     </div>
                     <div class="col-6 text-right">
-                        <q-btn color="white"  outline rounded text-color="black" @click="cargarCarrito(JSON.parse(JSON.stringify(dataPro)))" label="Seleccionar" />
+                        <q-btn color="white" outline rounded text-color="black" @click="cargarCarrito(JSON.parse(JSON.stringify(dataPro)))" label="Seleccionar" />
                     </div>
                 </q-card-section>
             </q-card>

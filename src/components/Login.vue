@@ -79,6 +79,8 @@
                     }, email: this.usuario, password: this.password}).then((res)=>{
                         localStorage.setItem('access_token', JSON.stringify(res.data.success.token))
                         localStorage.setItem('name', JSON.stringify(res.data.success.name))
+                        localStorage.setItem('email', JSON.stringify(res.data.success.email))
+                        localStorage.setItem('id', JSON.stringify(res.data.success.id))
                         this.$router.push("productos");
                     }).catch( (e) => {
                         this.loading = false;

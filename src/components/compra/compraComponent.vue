@@ -37,12 +37,25 @@
           <td class="font-weight-bold">$ <span>{{totalPrecio}}</span></td>
         </tfooter>
       </q-markup-table>
-      <button class="btn btn-dark" @click="comprar(this.data)">Comprar</button>
+      <button class="btn btn-dark" @click="comprar(this.data,totalPrecio,totalCantidad)">Comprar</button>
   </div>
+  <q-dialog v-model="guardado" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="logout" color="primary" text-color="white" />
+          <span class="q-ml-sm">Compra realizada.</span>
+        </q-card-section>
+
+        <q-card-actions align="center">
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 </template>
 <script>
     import{ defineComponent, computed } from 'vue';
     import store from '../../store/tienda';
+    import { useQuasar } from 'quasar';
     import axios from 'axios';
     export default defineComponent({
         name: 'compraComponent',
@@ -72,20 +85,27 @@
             const disminuir = id => {store.commit('disminuir', id)}
             return (disminuir);
           },
-          comprar (producto){
-           
+          comprar (producto,totalPrecio,totalCantidad){
+            const carrito = JSON.parse(JSON.stringify(store.state.carrito));
+            const arrayCarrito = Object(carrito).filter(Boolean);
+            const idProducto = [];
+            arrayCarrito.forEach((data) => {
+              idProducto.push(data.id);
+            })
+            const data = {
+              idProducto: JSON.stringify(idProducto).slice(1, -1),
+              total: totalPrecio,
+              cantidad: totalCantidad,
+              idUsuario: parseInt(localStorage.id)
+            }
+            axios.post('http://127.0.0.1:8000/api/saveCompra',{headers: {
+                'Content-Type': 'application/json',
+                ' X-Requested-With':'XMLHttpRequest'
+              }, idProducto: JSON.stringify(idProducto).slice(1, -1), total: totalPrecio,
+              cantidad: totalCantidad, idUsuario: parseInt(localStorage.id)}).then(res=>{
+                consle.log(res.data);
+            });
           },
-          setup () {
-                const $q = useQuasar()
-                return {
-                showNotif () {
-                    $q.notify({
-                    message: 'La compra se hizo exitosamente',
-                    icon: 'announcement'
-                    })
-                }
-                }
-            },
         }
       })
 </script>

@@ -7,8 +7,48 @@
             <img src="img/logo1.png">
           </q-avatar>
         </q-toolbar-title>
-        <q-btn flat round dense icon="shopping_cart" @click="compras()" size="1.4em" color="black"></q-btn>
-        <q-btn flat round dense icon="account_circle" size="2em" color="teal"  @click="sesion = true">  {{ this.nombre }}</q-btn>
+        <q-btn flat round dense icon="shopping_cart" @click="compras()" size="1.4em" color="black">
+          <q-tooltip class="bg-teal text-body2" :offset="[10, 10]">
+            Carrito de compra
+          </q-tooltip>
+        </q-btn>
+        <q-btn flat round dense icon="storefront" size="1.4em" color="black"  @click="product()">
+          <q-tooltip class="bg-teal text-body2" :offset="[10, 10]">
+            Lista productos
+          </q-tooltip>
+        </q-btn>
+        <q-btn-dropdown
+          class="glossy"
+          color="teal"
+          auto-close 
+          rounded
+          split
+          icon="account_circle"
+          :label=' this.nombre '
+        >
+          <div class="row no-wrap q-pa-md">
+            <div class="column">
+              <div class="text-h6 q-mb-md">Correo:</div>
+              <div class="text-h6 q-mb-md">{{ this.email }}</div>
+            </div>
+
+            <q-separator vertical inset class="q-mx-lg" />
+
+            <div class="column items-center">
+              <q-icon name="account_circle" color="teal" size="4rem" />
+              <div class="text-subtitle1 q-mt-md q-mb-xs">{{ this.nombre }}</div>
+
+              <q-btn
+                color="primary"
+                label="Cerrar sesión"
+                push
+                size="sm"
+                @click="sesion = true"
+                v-close-popup
+              />
+            </div>
+          </div>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -38,7 +78,8 @@ export default defineComponent({
   name: 'MainLayout',
   data: () => ({
     loading: false,
-    nombre: ''
+    nombre: '',
+    email: ''
   }),
   mounted(){
     this.datosLongin();
@@ -46,9 +87,13 @@ export default defineComponent({
   methods: {
     datosLongin(){
       this.nombre = localStorage.getItem('name').replace(/['"]+/g, '')
+      this.email = localStorage.getItem('email').replace(/['"]+/g, '')
     },
     compras(){
       this.$router.push('/compra')
+    },
+    product (){
+      this.$router.push('/productos')
     },
     logout() {
       this.loading = true;
