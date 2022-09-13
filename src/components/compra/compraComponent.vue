@@ -55,7 +55,7 @@
 <script>
     import{ defineComponent, computed } from 'vue';
     import store from '../../store/tienda';
-    import { useQuasar } from 'quasar';
+    import { useQuasar, Notify } from 'quasar';
     import axios from 'axios';
 
     export default defineComponent({
@@ -102,6 +102,10 @@
                 ' X-Requested-With':'XMLHttpRequest'
               }, idProducto: JSON.stringify(idProducto).slice(1, -1), total: totalPrecio,
               cantidad: totalCantidad, idUsuario: parseInt(localStorage.id)}).then(res=>{
+                Notify.create({
+                  message: res.data,
+                  color: 'primary',
+                })
                 console.log(res.data);
             });
           },

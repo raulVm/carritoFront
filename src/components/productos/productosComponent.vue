@@ -35,7 +35,7 @@
 <script>
     import{ defineComponent } from 'vue';
     import axios from 'axios';
-    import { useQuasar } from 'quasar';
+    import { useQuasar, Notify } from 'quasar';
     import store from '../../store/tienda';
     export default defineComponent({
         name: 'productosComponent',
@@ -52,22 +52,17 @@
             datosProducto (){
                 axios.get('http://127.0.0.1:8000/api/producto').then(res=>{
                     this.dataProductos = res.data;
-                    this.setup();
                 });
             },
             cargarCarrito (producto){
                 const conteo = store.dispatch('agregarCarrito',producto);
+                this.setup();
             },
             setup () {
-                const $q = useQuasar()
-                return {
-                showNotif () {
-                    $q.notify({
-                    message: 'Se agrego correctamente el producto',
-                    icon: 'announcement'
-                    })
-                }
-                }
+                Notify.create({
+                  message: "Producto agregado al carrito",
+                  color: 'primary',
+                })
             },
         }
     })
