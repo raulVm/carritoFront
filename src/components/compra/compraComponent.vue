@@ -37,7 +37,7 @@
           <td class="font-weight-bold">$ <span>{{totalPrecio}}</span></td>
         </tfooter>
       </q-markup-table>
-      <button class="btn btn-dark" @click="comprar(this.data,totalPrecio,totalCantidad)">Comprar</button>
+      <button class="btn btn-dark" @click="comprar(totalPrecio,totalCantidad)">Comprar</button>
   </div>
   <q-dialog v-model="guardado" persistent>
       <q-card>
@@ -57,6 +57,7 @@
     import store from '../../store/tienda';
     import { useQuasar } from 'quasar';
     import axios from 'axios';
+
     export default defineComponent({
         name: 'compraComponent',
         data () {
@@ -70,22 +71,20 @@
           this.gatDatos();
         },
         methods: {
-          getSelectedString () {
-            return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
-          },
           gatDatos (){
            const carrito = JSON.parse(JSON.stringify(store.state.carrito));
            this.data = Object(carrito).filter(Boolean);
            },
           aumentar (id){
-            // const aumentar = id => {store.commit('aumentar', id)}
-            return store.commit('aumentar', id);
+            store.commit('aumentar', id);
+            return this.gatDatos ();
+
           },
           disminuir (id){
-            const disminuir = id => {store.commit('disminuir', id)}
-            return (disminuir);
+            store.commit('disminuir', id);
+            return this.gatDatos ();
           },
-          comprar (producto,totalPrecio,totalCantidad){
+          comprar (totalPrecio,totalCantidad){
             const carrito = JSON.parse(JSON.stringify(store.state.carrito));
             const arrayCarrito = Object(carrito).filter(Boolean);
             const idProducto = [];
