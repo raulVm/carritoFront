@@ -32,7 +32,7 @@
           </tr>
         </tbody>
         <tfooter>
-          <th scope="row" colspan="2">Total productos</th>
+          <th scope="row" colspan="2">Total compra:</th>
           <td>{{totalCantidad}}</td>
           <td class="font-weight-bold">$ <span>{{totalPrecio}}</span></td>
         </tfooter>
@@ -63,8 +63,8 @@
         data () {
             return {
              data:[],
-             totalCantidad: computed(() => store.getters.totalCantidad),
-             totalPrecio: computed(() => store.getters.totalPrecio)
+             totalCantidad: 0,
+             totalPrecio: 0
             }
         },
         mounted() {
@@ -74,9 +74,11 @@
           gatDatos (){
            const carrito = JSON.parse(JSON.stringify(store.state.carrito));
            this.data = Object(carrito).filter(Boolean);
+           this.totalCantidad = computed(() => store.getters.totalCantidad);
+           this.totalPrecio = computed(() => store.getters.totalPrecio);
            },
           aumentar (id){
-            store.commit('aumentar', id);
+            store.commit('aumentar', id);;
             return this.gatDatos ();
 
           },
