@@ -79,7 +79,8 @@ export default defineComponent({
   data: () => ({
     loading: false,
     nombre: '',
-    email: ''
+    email: '',
+    sesion: false,
   }),
   mounted(){
     this.datosLongin();
